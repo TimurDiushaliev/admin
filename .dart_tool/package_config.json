@@ -104,6 +104,12 @@
       "languageVersion": "2.3"
     },
     {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///C:/Flutter/flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///C:/Flutter/flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.17.4",
       "packageUri": "lib/",
@@ -138,6 +144,18 @@
       "rootUri": "file:///C:/Flutter/flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/image-2.1.13",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "image_picker",
+      "rootUri": "file:///C:/Flutter/flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.7+21",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "image_picker_platform_interface",
+      "rootUri": "file:///C:/Flutter/flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_platform_interface-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.5"
     },
     {
       "name": "intl",
@@ -326,7 +344,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-01-01T10:42:47.385372Z",
+  "generated": "2021-01-19T10:33:14.787219Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

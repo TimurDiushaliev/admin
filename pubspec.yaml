@@ -30,6 +30,7 @@ dependencies:
   flutter_launcher_icons: ^0.8.1
   path_provider: ^1.6.24
   hive: ^1.4.4+1
+  image_picker: ^0.6.7+21
 
 
   # The following adds the Cupertino Icons font to your application.

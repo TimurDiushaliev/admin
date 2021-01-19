@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:admin/api/Api.dart';
 import 'package:admin/layouts/persons.dart';
@@ -6,40 +7,104 @@ import 'package:admin/models/userModel.dart';
 import 'package:admin/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart';
 
 List<int> a = [];
 UserModel _user;
-
-Future<UserModel> createUser(String username, String position, String password,
-    String firstname, String lastname, context) async {
+var bytesImage;
+File image;
   final String apiUrl = baseUrl + 'user/create/';
 
-  var body = {
+Future<UserModel> createUser(
+    String username,
+    String position,
+    String password,
+    String firstname,
+    String lastname,
+    String company,
+    File image,
+    context) async {
+
+  Map<String, String> body = {
     'username': username,
     'password': password,
     'first_name': firstname,
     'last_name': lastname,
-    "position": position
+    "position": position,
+    'company': company,
+    // 'file': image
   };
   try {
-    final response =
-        await http.post(apiUrl, headers: headers, body: json.encode(body));
+    print('image $image');
+    http.MultipartRequest request = await upload(image, context);
+    request.fields.addAll(body);
+    print('request $request');
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print('response body ${json.decode(response.body)}');
+    // var image = json.decode(response.body);
+    // final response =
+    //     await http.post(apiUrl, headers: headers, body: json.encode(body));
 
-    if (response.statusCode == 201) {
-      final String responseString = response.body;
-      Toast.show('Пользователь успешно создан', context,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
-      return userModelFromJson(responseString);
-    } else {
-      Toast.show('Допустимые символы для логина и пароля только <a-z> и <1-9>', context,
-          duration: Toast.LENGTH_SHORT);
-      return null;
-    }
+    // if (response.statusCode == 201) {
+    //   final String responseString = response.body;
+    //   Toast.show('Пользователь успешно создан', context,
+    //       duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+    //   return userModelFromJson(responseString);
+    // } else {
+    //   Toast.show('Допустимые символы для логина и пароля только <a-z> и <1-9>',
+    //       context,
+    //       duration: Toast.LENGTH_SHORT);
+    //   return null;
+    // }
   } catch (e) {
     Toast.show('Что-то пошло не так, проверьте интернет подключение', context,
         duration: Toast.LENGTH_SHORT);
     print('General Error: $e');
+  }
+}
+
+upload(File imageFile, context) async {
+  // open a bytestream
+  print('1');
+  var stream =
+      new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+  // get file length
+  print('2');
+  var length = await imageFile.length();
+  print('3');
+  // string to uri
+  var uri = Uri.parse(apiUrl);
+  print('4');
+  // create multipart request
+  var request = new http.MultipartRequest("POST", uri);
+  print('5');
+  // multipart that takes file
+  var multipartFile = new http.MultipartFile('file', stream, length,
+      filename: path.basename(imageFile.path));
+  print('6');
+  // add file to multipart
+  request.files.add(multipartFile);
+  print('7');
+  // send
+  // var streamedResponse = await request.send();
+  // var response = await http.Response.fromStream(streamedResponse);
+  // var image = json.decode(response.body);
+  // print('fsd ${image}');
+  return request;
+}
+
+Widget checkImage() {
+  if (bytesImage != null) {
+    return Container(
+      height: 150,
+      child: Image.memory(bytesImage),
+    );
+  } else {
+    return Container(height: 100);
   }
 }
 
@@ -57,11 +122,24 @@ class _AdminPageState extends State<AdminPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController positionController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
   final style = Style();
   final persons = MyHomePageState();
 
   @override
   Widget build(BuildContext context) {
+    getImage() async {
+      var picker = ImagePicker();
+      var pickedImage = await picker.getImage(source: ImageSource.camera);
+      if (pickedImage != null) {
+        image = File(pickedImage.path);
+        print('image path $image');
+        bytesImage = await image.readAsBytes();
+        print('image as bytes $bytesImage');
+        setState(() {});
+      }
+    }
+
     final _height = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
@@ -73,7 +151,7 @@ class _AdminPageState extends State<AdminPage> {
           height: _height * 1,
           width: _width * 1,
           child: LayoutBuilder(builder: (context, constaints) {
-            return Column(
+            return ListView(
               children: [
                 Container(
                   child: Row(
@@ -99,6 +177,9 @@ class _AdminPageState extends State<AdminPage> {
                       )
                     ],
                   ),
+                ),
+                Container(
+                  child: checkImage(),
                 ),
                 Container(
                   child: Column(
@@ -176,6 +257,16 @@ class _AdminPageState extends State<AdminPage> {
                           controller: positionController,
                           decoration: style.personPosition),
                     ),
+                    Container(
+                      width: constaints.maxWidth * 0.9,
+                      child: TextField(
+                        controller: companyController,
+                        decoration: style.adminInputDecoration,
+                      ),
+                    ),
+                    RaisedButton(onPressed: () {
+                      getImage();
+                    })
                   ],
                 )
               ],
@@ -189,8 +280,9 @@ class _AdminPageState extends State<AdminPage> {
             final String lastname = lastnameController.text;
             final String name = nameController.text;
             final String position = positionController.text;
-            final UserModel user = await createUser(
-                username, position, password, name, lastname, context);
+            final String company = companyController.text;
+            final UserModel user = await createUser(username, position,
+                password, name, lastname, company, image, context);
             setState(() {
               _user = user;
             });

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../main.dart';
 
-final String baseUrl = 'http://timeset.pythonanywhere.com/api/v1/';
+final String baseUrl = 'http://192.168.88.233:8000/api/';
 var headers = {
   'Content-type': 'application/json; charset=Utf-8',
   'Authorization': ''
