@@ -17,6 +17,7 @@ UserModel _user;
 var bytesImage;
 File image;
 final String apiUrl = baseUrl + 'user/create/';
+final api = Api();
 
 Future<UserModel> createUser(
     String username,
@@ -36,9 +37,11 @@ Future<UserModel> createUser(
     // 'company': company,
     // 'file': image
   };
+
+  print('image $image');
   try {
-    print('image $image');
     http.MultipartRequest request = await upload(image, context);
+    api.showAlertDialog(context);
     request.fields.addAll(body);
     request.headers.addAll(headers);
     print('request $request');
@@ -53,12 +56,14 @@ Future<UserModel> createUser(
       final String responseString = response.body;
       Toast.show('Пользователь успешно создан', context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+      Navigator.pop(dialogContext);
       // homePage.refreshPage();
       return userModelFromJson(responseString);
     } else {
       Toast.show('Допустимые символы для логина и пароля только <a-z> и <1-9>',
           context,
           duration: Toast.LENGTH_SHORT);
+      Navigator.pop(dialogContext);
       return null;
     }
   } catch (e) {
@@ -141,11 +146,9 @@ class _AdminPageState extends State<AdminPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: _height*0.4,
-                child: Image.memory(bytesImage)),
+              Container(height: _height * 0.4, child: Image.memory(bytesImage)),
               IconButton(
-                iconSize: _height*0.1,
+                  iconSize: _height * 0.1,
                   icon: Icon(Icons.cancel),
                   onPressed: () {
                     bytesImage = null;
@@ -280,7 +283,8 @@ class _AdminPageState extends State<AdminPage> {
                       ),
                       Container(
                         width: constaints.maxWidth * 0.9,
-                        margin: EdgeInsets.only(bottom: constaints.minHeight*0.1),
+                        margin:
+                            EdgeInsets.only(bottom: constaints.minHeight * 0.1),
                         child: TextField(
                             controller: positionController,
                             decoration: style.personPosition),
