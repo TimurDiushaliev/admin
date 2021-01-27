@@ -16,18 +16,21 @@ class ProfileModel {
   ProfileModel({
     this.id,
     this.user,
+    this.image,
     this.position,
     this.company,
   });
 
   int id;
   User user;
+  ProfileImage image;
   String position;
   int company;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         id: json["id"],
         user: User.fromJson(json["user"]),
+        image: json['image'] != null ?ProfileImage.fromJson(json['image']): null,
         position: json["position"],
         company: json["company"],
       );
@@ -35,6 +38,7 @@ class ProfileModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "user": user.toJson(),
+        'image': image.toJson(),
         "position": position,
         "company": company,
       };
@@ -46,7 +50,7 @@ class User {
     this.firstName,
     this.lastName,
   });
-  
+
   String username;
   String firstName;
   String lastName;
@@ -62,4 +66,16 @@ class User {
         "first_name": firstName,
         "last_name": lastName,
       };
+}
+
+class ProfileImage {
+  ProfileImage({this.id, this.file});
+
+  int id;
+  String file;
+
+  factory ProfileImage.fromJson(Map<String, dynamic> json) =>
+      ProfileImage(id: json['id'], file: json['file']);
+
+  Map<String, dynamic> toJson() => {'id': id, "file": file};
 }

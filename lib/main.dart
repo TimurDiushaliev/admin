@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:admin/api/Api.dart';
-import 'package:admin/layouts/choose.dart';
-import 'package:admin/layouts/persons.dart';
+import 'package:admin/view/persons.dart';
 import 'package:admin/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -19,7 +17,7 @@ void main() async {
   await Hive.init(document.path);
   await Hive.openBox('myBox');
   runApp(MaterialApp(
-    home: Choose()));
+    home: LoginPage()));
 }
 
 class LoginPage extends StatefulWidget {
