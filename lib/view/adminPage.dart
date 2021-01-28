@@ -62,14 +62,19 @@ Future<UserModel> createUser(
     } else {
       Toast.show('Допустимые символы для логина и пароля только <a-z> и <1-9>',
           context,
-          duration: Toast.LENGTH_SHORT);
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       Navigator.pop(dialogContext);
       return null;
     }
-  } catch (e) {
+  } on SocketException catch (e) {
     Toast.show('Что-то пошло не так, проверьте интернет подключение', context,
-        duration: Toast.LENGTH_SHORT);
+        gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+    Navigator.pop(dialogContext);
     print('General Error: $e');
+  } on Error catch (e) {
+    Toast.show('General Error', context,
+        gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+    Navigator.pop(dialogContext);
   }
 }
 
