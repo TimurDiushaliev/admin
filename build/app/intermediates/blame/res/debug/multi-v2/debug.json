@@ -152,10 +152,10 @@
             ]
         },
         {
-            "outputFile": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\values-nb_values-nb.arsc.flat",
+            "outputFile": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\values-bs_values-bs.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\Администратор\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\values-nb\\values-nb.xml",
+                    "source": "C:\\Users\\Администратор\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\values-bs\\values-bs.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -167,10 +167,10 @@
             ]
         },
         {
-            "outputFile": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\values-bs_values-bs.arsc.flat",
+            "outputFile": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\values-nb_values-nb.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\Администратор\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\values-bs\\values-bs.xml",
+                    "source": "C:\\Users\\Администратор\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\values-nb\\values-nb.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

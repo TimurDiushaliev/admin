@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
-        "source": "C:\\Users\\Администратор\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
-    },
-    {
         "merged": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-mdpi_launcher_icon.png.flat",
         "source": "C:\\Flutter projects\\admin\\android\\app\\src\\main\\res\\mipmap-mdpi\\launcher_icon.png"
+    },
+    {
+        "merged": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "C:\\Users\\Администратор\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
     },
     {
         "merged": "C:\\Flutter projects\\admin\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
