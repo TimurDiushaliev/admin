@@ -66,22 +66,23 @@ class Api {
       connectionState = true;
       Navigator.pop(dialogContext);
     } on TimeoutException catch (e) {
+      Navigator.pop(dialogContext);
       Toast.show(
           'Вышло время ожидания, проверьте интернет подключение', context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       print('Timeout Error: $e');
-      Navigator.pop(dialogContext);
       connectionState = false;
     } on SocketException catch (e) {
+      Navigator.pop(dialogContext);
       Toast.show(
           'Связь с сервером прервана, проверьте интернет подключение', context,
           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
       print('Socket Error: $e');
-      Navigator.pop(dialogContext);
+
       connectionState = false;
     } on Error catch (e) {
-      print('General Error: $e');
       Navigator.pop(dialogContext);
+      print('General Error: $e');
       connectionState = false;
     }
   }
@@ -123,7 +124,7 @@ class Api {
         print('fetchDataFromJson $headers');
         print('1: ${json.decode(response.body)}');
       }
-      return persons;   
+      return persons;
     } on TimeoutException catch (e) {
       Toast.show(
           'Вышло время ожидания, проверьте интернет подключение', context,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -53,29 +54,38 @@ Future<UserModel> createUser(
     //     await http.post(apiUrl, headers: headers, body: json.encode(body));
 
     if (response.statusCode == 201) {
+      Navigator.pop(dialogContext);
       final String responseString = response.body;
       Toast.show('Пользователь успешно создан', context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
-      Navigator.pop(dialogContext);
+
       // homePage.refreshPage();
       return userModelFromJson(responseString);
-    } else {
-      Toast.show('Допустимые символы для логина и пароля только <a-z> и <1-9>',
-          context,
-          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+    } else if (response.statusCode == 400) {
       Navigator.pop(dialogContext);
-      return null;
+      Toast.show('${json.decode(response.body)}', context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+    } else {
+      Navigator.pop(dialogContext);
+      Toast.show('Произошла ошибка, попробуйте снова', context,
+          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
     }
+  } on TimeoutException catch (e) {
+    Navigator.pop(dialogContext);
+    Toast.show('Вышло время ожидания, проверьте интернет подключение', context,
+        gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+    print('Timeout Error: $e');
   } on SocketException catch (e) {
+    Navigator.pop(dialogContext);
     Toast.show('Что-то пошло не так, проверьте интернет подключение', context,
         gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-    Navigator.pop(dialogContext);
+
     print('General Error: $e');
   } catch (e) {
+    Navigator.pop(dialogContext);
     print('error $e');
     Toast.show('General Error', context,
         gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-    Navigator.pop(dialogContext);
   }
 }
 
