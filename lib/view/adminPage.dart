@@ -47,7 +47,7 @@ Future<UserModel> createUser(
     print('request $request');
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    print('response body ${json.decode(response.body)}');
+    print('response body ${response.body}');
     // var image = json.decode(response.body);
     // final response =
     //     await http.post(apiUrl, headers: headers, body: json.encode(body));
@@ -71,7 +71,8 @@ Future<UserModel> createUser(
         gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
     Navigator.pop(dialogContext);
     print('General Error: $e');
-  } on Error catch (e) {
+  } catch (e) {
+    print('error $e');
     Toast.show('General Error', context,
         gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
     Navigator.pop(dialogContext);

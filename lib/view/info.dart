@@ -18,7 +18,7 @@ class InfoPage extends StatefulWidget {
 }
 
 List<InfoModel> _list = List<InfoModel>();
-var domen = '192.168.88.233:8000';
+var domen = '188.225.73.135';
 
 Future fetchData(profileId, context,{start, end}) async {
   try {

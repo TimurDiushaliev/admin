@@ -123,18 +123,6 @@ class LoginPageState extends State<LoginPage> {
                                     context, getAdminName, getAdminPassword);
                               }),
                         ),
-                        // RaisedButton(
-                        //     child: Text('БД'),
-                        //     onPressed: () {
-                        //       var username = box.get('username');
-                        //       var password = box.get('password');
-                        //       var token = box.get('tokenInTheBox');
-                        //       print('''
-                        //     username in the box: $username
-                        //     password in the box: $password
-                        //     token in the box: $token
-                        //     ''');
-                        //     })
                       ],
                     )
                   ],
