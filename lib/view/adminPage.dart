@@ -12,6 +12,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 import 'package:path/path.dart' as path;
 import 'package:async/async.dart';
+import 'dart:math';
+
+import 'package:translit/translit.dart';
 
 List<int> a = [];
 UserModel _user;
@@ -20,23 +23,14 @@ File image;
 final String apiUrl = baseUrl + 'user/create/';
 final api = Api();
 
-Future<UserModel> createUser(
-    String username,
-    String position,
-    String password,
-    String firstname,
-    String lastname,
-    // String company,
-    File image,
-    context) async {
+Future<UserModel> createUser(String username, String position, String password,
+    String firstname, String lastname, File image, context) async {
   Map<String, String> body = {
     'username': username,
     'password': password,
     'first_name': firstname,
     'last_name': lastname,
     "position": position,
-    // 'company': company,
-    // 'file': image
   };
 
   print('image $image');
@@ -89,6 +83,13 @@ Future<UserModel> createUser(
   }
 }
 
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+
 upload(File imageFile, context) async {
   // open a bytestream
   print('1');
@@ -133,7 +134,6 @@ class _AdminPageState extends State<AdminPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController positionController = TextEditingController();
-  TextEditingController companyController = TextEditingController();
   final style = Style();
 
   @override
@@ -229,31 +229,13 @@ class _AdminPageState extends State<AdminPage> {
                     child: Column(
                       children: [
                         checkImage(),
-                        Container(
-                          width: constaints.maxWidth * 0.9,
-                          margin: EdgeInsets.only(
-                            top: constaints.maxHeight * 0.05,
-                            bottom: constaints.maxHeight * 0.02,
-                          ),
-                          child: TextField(
-                              controller: usernameController,
-                              decoration: style.adminInputDecoration),
-                        ),
-                        Container(
-                          width: constaints.maxWidth * 0.9,
-                          margin: EdgeInsets.only(
-                            bottom: constaints.maxHeight * 0.05,
-                          ),
-                          child: TextField(
-                              controller: passwordController,
-                              decoration: style.adminPasswrodStyle),
-                        )
                       ],
                     ),
                   ),
                   Container(
-                    margin:
-                        EdgeInsets.only(bottom: constaints.maxHeight * 0.03),
+                    margin: EdgeInsets.only(
+                        top: constaints.maxHeight * 0.05,
+                        bottom: constaints.maxHeight * 0.03),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -305,13 +287,6 @@ class _AdminPageState extends State<AdminPage> {
                             controller: positionController,
                             decoration: style.personPosition),
                       ),
-                      // Container(
-                      //   width: constaints.maxWidth * 0.9,
-                      //   child: TextField(
-                      //     controller: companyController,
-                      //     decoration: style.adminInputDecoration,
-                      //   ),
-                      // ),
                     ],
                   )
                 ],
@@ -320,12 +295,12 @@ class _AdminPageState extends State<AdminPage> {
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () async {
-              final String username = usernameController.text;
-              final String password = passwordController.text;
+              final String password = 'password';
               final String lastname = lastnameController.text;
               final String name = nameController.text;
               final String position = positionController.text;
-              final String company = companyController.text;
+              String username = Translit().toTranslit(source: name+lastname) + getRandomString(5);
+              print('randomstring $username');
               final UserModel user = await createUser(
                   username, position, password, name, lastname, image, context);
               // setState(() {
